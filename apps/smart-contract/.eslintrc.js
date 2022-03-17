@@ -1,24 +1,7 @@
 module.exports = {
-  env: {
-    browser: false,
-    es2021: true,
-    mocha: true,
-    node: true,
-  },
-  plugins: ["@typescript-eslint"],
-  extends: [
-    "standard",
-    "plugin:prettier/recommended",
-    "plugin:node/recommended",
-  ],
-  parser: "@typescript-eslint/parser",
+  ...require('config/eslint-server'),
   parserOptions: {
-    ecmaVersion: 12,
+    tsconfigRootDir: __dirname,
+    project: './tsconfig.json',
   },
-  rules: {
-    "node/no-unsupported-features/es-syntax": [
-      "error",
-      { ignores: ["modules"] },
-    ],
-  },
-};
+}

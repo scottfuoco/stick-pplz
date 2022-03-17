@@ -1,5 +1,5 @@
 {
-  "name": "turborepo-basic-shared",
+  "name": "stick-pplz",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
@@ -13,12 +13,15 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "prettier": "^2.5.1",
     "turbo": "latest"
   },
   "engines": {
-    "npm": ">=7.0.0",
+    "npm": ">=7.24.2",
     "node": ">=14.0.0"
   },
-  "packageManager": "npm@8.5.1"
+  "packageManager": "npm@7.24.2",
+  "volta": {
+    "node": "14.19.0",
+    "npm": "7.24.2"
+  }
 }

@@ -6,7 +6,8 @@
   "scripts": {
     "accounts": "hardhat accounts",
     "compile": "hardhat compile --force",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.ts"
   },
   "author": "",
   "license": "ISC",

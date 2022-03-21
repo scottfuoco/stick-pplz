@@ -1,21 +1,19 @@
 import { useEffect, useState } from 'react';
+import { useEthers } from '@usedapp/core';
+import { Web3ModalButton } from '../components/Web3ModalButton';
 
-import { getPublicVariables } from './services/contract/interact';
+import { getPublicVariables } from '../contract/interact';
+import { usePublicContractData } from '../hooks/usePublicContractData';
+import { signInMessage } from '../contract/signin';
 
 export default function Web() {
   const [publicVariables, setPublicVariables] = useState(null);
+  // const value = usePublicContractData();
 
-  useEffect(() => {
-    async function fetchVariables() {
-      setPublicVariables(await getPublicVariables());
-    }
-    fetchVariables();
-  }, []);
-
-  console.log({ publicVariables });
   return (
     <div>
-      <h1 className="">MINTING DAPP WIP!</h1>
+      <h1>MINTING DAPP WIP!</h1>
+      <Web3ModalButton />
     </div>
   );
 }

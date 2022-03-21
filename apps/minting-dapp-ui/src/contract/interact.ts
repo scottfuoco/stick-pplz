@@ -1,10 +1,9 @@
 import { createAlchemyWeb3 } from '@alch/alchemy-web3';
-import { CONTRACT_ADDRESS, RPC_URL } from '../../config';
-import { abi } from './StickPplNFTz.json';
+import { config } from '@/src/config';
+import abi from './StickPplNFTzAbi.json';
 
-const web3 = createAlchemyWeb3(RPC_URL);
-
-const nftContract = new web3.eth.Contract(abi, CONTRACT_ADDRESS);
+const web3 = createAlchemyWeb3(config.RPC_URL);
+const nftContract = new web3.eth.Contract(abi, config.CONTRACT_ADDRESS);
 
 export const getPublicVariables = async () => {
   const publicVariableData = [

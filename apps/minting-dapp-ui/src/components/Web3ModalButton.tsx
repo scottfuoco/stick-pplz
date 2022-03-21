@@ -48,11 +48,12 @@ export const Web3ModalButton = () => {
 
   useEffect(() => {
     async function signin() {
-      if (account && account !== null) {
-        const signer = library?.getSigner();
-        const message = await signer?.signMessage(signInMessage({ nonce: '1', wallet: account }));
-        console.log({ message });
-      }
+      // TODO: add server validation
+      // if (account && account !== null) {
+      //   const signer = library?.getSigner();
+      //   const message = await signer?.signMessage(signInMessage({ nonce: '1', wallet: account }));
+      //   console.log({ message });
+      // }
     }
     if (account) {
       signin();
@@ -62,7 +63,14 @@ export const Web3ModalButton = () => {
     <div>
       <p>{activateError}</p>
       {account ? (
-        <button type="button" onClick={() => deactivate()}>Disconnect</button>
+        <div className="flex flex-col items-center">
+          <h3>
+            Signed in as
+            {' '}
+            {account}
+          </h3>
+          <button type="button" onClick={() => deactivate()}>Disconnect</button>
+        </div>
       ) : (
         <button type="button" onClick={() => activateProvider()}>Connect</button>
       )}

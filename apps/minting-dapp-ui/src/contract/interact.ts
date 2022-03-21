@@ -3,7 +3,7 @@ import { config } from '@/src/config';
 import abi from './StickPplNFTzAbi.json';
 
 const web3 = createAlchemyWeb3(config.RPC_URL);
-const nftContract = new web3.eth.Contract(abi, config.CONTRACT_ADDRESS);
+const nftContract = new web3.eth.Contract(abi, config.TOKEN_CONTACT_ADDRESS);
 
 export const getPublicVariables = async () => {
   const publicVariableData = [

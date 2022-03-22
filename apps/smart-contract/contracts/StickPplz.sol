@@ -30,6 +30,8 @@ contract StickPplNFTz is ERC721, Ownable, ReentrancyGuard {
   bool public whitelistMintEnabled = false;
   bool public revealed = false;
 
+  address proxyRegistryAddress;
+
   constructor(
     string memory _tokenName,
     string memory _tokenSymbol,
@@ -44,25 +46,18 @@ contract StickPplNFTz is ERC721, Ownable, ReentrancyGuard {
     setHiddenMetadataUri(_hiddenMetadataUri);
   }
 
-  modifier mintCompliance(uint256 _mintAmount) {
-    require(_mintAmount > 0 && _mintAmount <= maxMintAmountPerTx, "Invalid mint amount!");
-    require(supply.current() + _mintAmount <= maxSupply, "Max supply exceeded!");
+  modifier mintValidations(uint256 _mintAmount) {
+    require(_mintAmount > 0, "_mintAmount must be > 0");
+    require(_mintAmount <= maxMintAmountPerTx, "Cannot mint more than maxMintAmountPerTx");
+    require(supply.current() + _mintAmount <= maxSupply, "Max supply exceeded");
+    require(msg.value >= cost * _mintAmount, "Insufficient funds");
     _;
   }
-
-  modifier mintPriceCompliance(uint256 _mintAmount) {
-    require(msg.value >= cost * _mintAmount, "Insufficient funds!");
-    _;
-  }
-
-  function totalSupply() public view returns (uint256) {
-    return supply.current();
-  }
-
-  function whitelistMint(uint256 _mintAmount, bytes32[] calldata _merkleProof) public payable mintCompliance(_mintAmount) mintPriceCompliance(_mintAmount) {
+  
+  function whitelistMint(uint256 _mintAmount, bytes32[] calldata _merkleProof) public payable mintValidations(_mintAmount) {
     // Verify whitelist requirements
-    require(whitelistMintEnabled, "The whitelist sale is not enabled!");
-    require(!whitelistClaimed[msg.sender], "Address already claimed!");
+    require(whitelistMintEnabled, "The whitelist sale is not enabled");
+    require(!whitelistClaimed[msg.sender], "Address already claimed");
     bytes32 leaf = keccak256(abi.encodePacked(msg.sender));
     require(MerkleProof.verify(_merkleProof, merkleRoot, leaf), "Invalid proof!");
 
@@ -70,16 +65,12 @@ contract StickPplNFTz is ERC721, Ownable, ReentrancyGuard {
     _mintLoop(msg.sender, _mintAmount);
   }
 
-  function mint(uint256 _mintAmount) public payable mintCompliance(_mintAmount) mintPriceCompliance(_mintAmount) {
+  function mint(uint256 _mintAmount) public payable mintValidations(_mintAmount) {
     require(!paused, "The contract is paused!");
 
     _mintLoop(msg.sender, _mintAmount);
   }
   
-  function mintForAddress(uint256 _mintAmount, address _receiver) public mintCompliance(_mintAmount) onlyOwner {
-    _mintLoop(_receiver, _mintAmount);
-  }
-
   function walletOfOwner(address _owner)
     public
     view
@@ -127,6 +118,10 @@ contract StickPplNFTz is ERC721, Ownable, ReentrancyGuard {
         : "";
   }
 
+  function totalSupply() public view returns (uint256) {
+    return supply.current();
+  }
+
   function setRevealed(bool _state) public onlyOwner {
     revealed = _state;
   }
@@ -162,7 +157,7 @@ contract StickPplNFTz is ERC721, Ownable, ReentrancyGuard {
   function setWhitelistMintEnabled(bool _state) public onlyOwner {
     whitelistMintEnabled = _state;
   }
-
+  
   function withdraw() public onlyOwner nonReentrant {
     // This will pay HashLips Lab Team 5% of the initial sale.
     // By leaving the following lines as they are you will contribute to the
@@ -190,4 +185,36 @@ contract StickPplNFTz is ERC721, Ownable, ReentrancyGuard {
   function _baseURI() internal view virtual override returns (string memory) {
     return uriPrefix;
   }
+
+   /**
+   * Override isApprovedForAll to whitelist user's OpenSea proxy accounts to enable gas-less listings.
+   */
+    function isApprovedForAll(address owner, address operator)
+        override
+        public
+        view
+        returns (bool)
+    {
+        // Whitelist OpenSea proxy contract for easy trading.
+        ProxyRegistry proxyRegistry = ProxyRegistry(proxyRegistryAddress);
+        if (address(proxyRegistry.proxies(owner)) == operator) {
+            return true;
+        }
+
+        return super.isApprovedForAll(owner, operator);
+    }
+}
+
+/**
+  @title An OpenSea delegate proxy contract which we include for whitelisting.
+  @author OpenSea
+*/
+contract OwnableDelegateProxy {}
+
+/**
+  @title An OpenSea proxy registry contract which we include for whitelisting.
+  @author OpenSea
+*/
+contract ProxyRegistry {
+    mapping(address => OwnableDelegateProxy) public proxies;
 }

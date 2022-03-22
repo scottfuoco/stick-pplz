@@ -1,11 +1,11 @@
 import { AppProps } from 'next/app';
-import '@/src/styles/globals.css';
-import {
-  DAppProvider,
-  Config,
-} from '@usedapp/core';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { DAppProvider, Config } from '@usedapp/core';
+
 import { config } from '@/src/config';
+
+import '@/src/styles/globals.scss';
+import '@/src/styles/forms.scss';
 
 const dappConfig: Config = {
   readOnlyChainId: config.NETWORK_ID,

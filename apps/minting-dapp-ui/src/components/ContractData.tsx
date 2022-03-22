@@ -2,9 +2,8 @@ import { usePublicContractData } from '../hooks/usePublicContractData';
 
 export const ContractData = () => {
   const {
-    data, error, isLoading, refetch,
+    data, error, isLoading,
   } = usePublicContractData();
-  console.log({ data });
 
   if (isLoading) {
     return <div>Loading...</div>;

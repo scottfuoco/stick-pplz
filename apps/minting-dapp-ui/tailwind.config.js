@@ -8,18 +8,20 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'blue-opaque': 'rgb(13 42 148 / 18%)',
-        gray: {
-          0: '#fff',
-          100: '#fafafa',
-          200: '#eaeaea',
-          300: '#999999',
-          400: '#888888',
-          500: '#666666',
-          600: '#444444',
-          700: '#333333',
-          800: '#222222',
-          900: '#111111',
+        success: {
+          DEFAULT: '#6AF145',
+          lighter: '#76F253',
+          darker: '#4AEE1D',
+        },
+        warning: {
+          DEFAULT: '#F8E623',
+          lighter: '#F9EA40',
+          darker: '#F8E623',
+        },
+        danger: {
+          DEFAULT: '#F7233A',
+          lighter: '#EA2C42',
+          darker: '#BB1226',
         },
       },
       fontFamily: {
@@ -49,52 +51,18 @@ module.exports = {
         },
         dark: {
           css: {
-            color: theme('colors.gray.200'),
-            a: {
-              color: theme('colors.blue.400'),
-              '&:hover': {
-                color: theme('colors.blue.600'),
-              },
-              code: { color: theme('colors.blue.400') },
-            },
-            blockquote: {
-              borderLeftColor: theme('colors.gray.700'),
-              color: theme('colors.gray.300'),
-            },
-            'h2,h3,h4': {
-              color: theme('colors.gray.100'),
-              'scroll-margin-top': spacing[32],
-            },
-            hr: { borderColor: theme('colors.gray.700') },
-            ol: {
-              li: {
-                '&:before': { color: theme('colors.gray.500') },
-              },
-            },
-            ul: {
-              li: {
-                '&:before': { backgroundColor: theme('colors.gray.500') },
-              },
-            },
-            strong: { color: theme('colors.gray.100') },
-            thead: {
-              th: {
-                color: theme('colors.gray.100'),
-              },
-              borderBottomColor: theme('colors.gray.600'),
-            },
-            tbody: {
-              tr: {
-                borderBottomColor: theme('colors.gray.700'),
-              },
-            },
           },
         },
       }),
     },
   },
   variants: {
+    extend: {
+      backgroundColor: ['even', 'odd'],
+      borderStyle: ['hover', 'focus'],
+      animation: ['hover', 'focus', 'group-hover'],
+    },
     typography: ['dark'],
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 };

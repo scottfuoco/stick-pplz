@@ -13,7 +13,7 @@ type NetworkConfig = {
 export const networkConfig = {
   rinkeby: {
     RPC_URL: 'https://eth-rinkeby.alchemyapi.io/v2/2BNHY6CtkfuZRPxAzrIentCl2Q7KuOvV',
-    TOKEN_CONTACT_ADDRESS: '0x11621Ff7644c5fC9c2c969c436bB1F693b40a84e',
+    TOKEN_CONTACT_ADDRESS: '0xdc9A95d8C4309c12962f34e938f2D1C8a85645A1',
     NETWORK_ID: 4,
   },
 };

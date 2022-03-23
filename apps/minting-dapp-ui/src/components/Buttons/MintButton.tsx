@@ -1,9 +1,10 @@
 import { useEthers } from '@usedapp/core';
+import { toast } from 'react-toastify';
 import { useMint } from '../../hooks/useMint';
 import { usePublicContractData } from '../../hooks/usePublicContractData';
 import { Button } from './Button';
 
-export const MintButton = () => {
+export const MintButton = ({ amount }) => {
   const { account } = useEthers();
 
   const { data, error, isLoading: isLoadingPublicData } = usePublicContractData();
@@ -14,10 +15,11 @@ export const MintButton = () => {
 
   const handleMint = () => {
     if (!account) {
-      alert('Login');
+      toast.error('Connect your wallet!', { position: 'top-left' });
+      return;
     }
     const { cost } = data;
-    mint({ amount: 1, cost, account });
+    mint({ amount, cost: cost * amount, account });
   };
 
   return <Button type="button" isLoading={isLoading} onClick={handleMint}>MINT!</Button>;

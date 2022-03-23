@@ -15,5 +15,5 @@ export const Button = ({
   let content = children;
   if (isLoading) content = <ImSpinner6 className="animate-spin" />;
 
-  return <button type={type} onClick={onClick}>{content}</button>;
+  return <button className="btn btn-blue" type={type} onClick={onClick}>{content}</button>;
 };

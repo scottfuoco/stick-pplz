@@ -11,6 +11,7 @@ export const getPublicVariables = async () => {
   const publicVariableData = [
     { variable: 'cost', contractCall: nftContract.methods.cost().call() },
     { variable: 'totalSupply', contractCall: nftContract.methods.totalSupply().call() },
+    { variable: 'maxSupply', contractCall: nftContract.methods.maxSupply().call() },
     { variable: 'maxMintAmountPerTx', contractCall: nftContract.methods.maxMintAmountPerTx().call() },
     { variable: 'paused', contractCall: nftContract.methods.paused().call() },
     { variable: 'whitelistMintEnabled', contractCall: nftContract.methods.whitelistMintEnabled().call() },
@@ -43,8 +44,8 @@ export const mint = async ({ amount, cost, account }) => {
   try {
     // Interact with contract
     const contract = new ethers.Contract(config.TOKEN_CONTACT_ADDRESS, abi, signer);
-    const totalPrice = cost * 1;
-    const transaction = await contract.mint(1, { value: ethers.utils.parseUnits(totalPrice.toString(), 'wei') });
+    const totalPrice = cost;
+    const transaction = await contract.mint(amount, { value: ethers.utils.parseUnits(totalPrice.toString(), 'wei') });
     const data = await transaction.wait();
     console.log({ transaction });
     console.log({ data });

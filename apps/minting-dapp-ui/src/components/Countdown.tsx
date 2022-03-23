@@ -1,4 +1,5 @@
-import { MintButton } from './Button/MintButton';
+import { Mint } from '../sections/Mint';
+import { MintButton } from './Buttons/MintButton';
 
 type Props = {
   days: number;
@@ -12,7 +13,7 @@ const Countdown = ({
   days, hours, minutes, seconds, completed,
 }: Props) => {
   if (completed) {
-    return <MintButton />;
+    return <Mint />;
   }
 
   const dateTextArr = [];

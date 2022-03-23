@@ -1,7 +1,9 @@
 import { AppProps } from 'next/app';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { DAppProvider, Config } from '@usedapp/core';
-
+import { ToastContainer } from 'react-toastify';
+import { injectStyle } from 'react-toastify/dist/inject-style';
+import { Web3AutoReconnect } from '@/components/Web3AutoReconnect';
 import { config } from '@/src/config';
 
 import '@/src/styles/globals.scss';
@@ -16,13 +18,23 @@ const dappConfig: Config = {
 };
 
 const queryClient = new QueryClient();
-const App = ({ Component, pageProps }: AppProps) => (
-  <DAppProvider config={dappConfig}>
-    <QueryClientProvider client={queryClient}>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <Component {...pageProps} />
-    </QueryClientProvider>
-  </DAppProvider>
-);
+const App = ({ Component, pageProps }: AppProps) => {
+  if (typeof window !== 'undefined') {
+    injectStyle();
+  }
+
+  return (
+    <DAppProvider config={dappConfig}>
+      <QueryClientProvider client={queryClient}>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Web3AutoReconnect>
+          <Component {...pageProps} />
+        </Web3AutoReconnect>
+
+        <ToastContainer />
+      </QueryClientProvider>
+    </DAppProvider>
+  );
+};
 
 export default App;

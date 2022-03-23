@@ -3,19 +3,37 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/src/*": ["src/*"],
-      "@/components/*": ["src/components/*"],
-      "@/public/*": ["public/*"],
+      "@/src/*": [
+        "src/*"
+      ],
+      "@/components/*": [
+        "src/components/*"
+      ],
+      "@/public/*": [
+        "public/*"
+      ]
     },
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "target": "es6",
     "allowJs": true,
-    "incremental": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "esModuleInterop": true,
     "module": "esnext",
-    "resolveJsonModule": true
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmitOnError": true,
+    "watch": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",

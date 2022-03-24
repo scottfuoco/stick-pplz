@@ -30,6 +30,31 @@ export const getPublicVariables = async () => {
   return variables;
 };
 
+export const whitelistMint = async ({ amount, cost, account }) => {
+  console.log({ amount, cost, account });
+  if (!window.ethereum.selectedAddress) {
+    return {
+      success: false,
+      status: 'To be able to mint, you need to connect your wallet',
+    };
+  }
+
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  try {
+    // Interact with contract
+    const contract = new ethers.Contract(config.TOKEN_CONTACT_ADDRESS, abi, signer);
+    const totalPrice = cost;
+    const transaction = await contract.whitelistMint(amount, { value: ethers.utils.parseUnits(totalPrice.toString(), 'wei') });
+    const data = await transaction.wait();
+    console.log({ transaction });
+    console.log({ data });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const mint = async ({ amount, cost, account }) => {
   console.log({ amount, cost, account });
   if (!window.ethereum.selectedAddress) {

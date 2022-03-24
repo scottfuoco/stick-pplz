@@ -9,7 +9,16 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint"
+    "lint": "turbo run lint",
+    "contract:deploy": "npm run -w smart-contract deploy --",
+    "contract:verify": "npm run -w smart-contract verify --",
+    "contract:whitelist-open": "npm run -w smart-contract whitelist-open --",
+    "contract:whitelist-close": "npm run -w smart-contract whitelist-close --",
+    "contract:presale-open": "npm run -w smart-contract presale-open --",
+    "contract:presale-close": "npm run -w smart-contract presale-close --",
+    "contract:public-sale-open": "npm run -w smart-contract public-sale-open --",
+    "contract:public-sale-close": "npm run -w smart-contract public-sale-close --",
+    "contract:reveal": "npm run -w smart-contract reveal"
   },
   "devDependencies": {
     "turbo": "latest"

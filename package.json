@@ -10,6 +10,8 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
+    "contract:root-hash": "npm run -w smart-contract root-hash --",
+    "contract:proof": "npm run -w smart-contract proof --",
     "contract:deploy": "npm run -w smart-contract deploy --",
     "contract:verify": "npm run -w smart-contract verify --",
     "contract:whitelist-open": "npm run -w smart-contract whitelist-open --",

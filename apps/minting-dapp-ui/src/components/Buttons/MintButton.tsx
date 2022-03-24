@@ -1,5 +1,6 @@
 import { useEthers } from '@usedapp/core';
 import { toast } from 'react-toastify';
+import { whitelistMint } from '@/src/contract/interact';
 import { useMint } from '../../hooks/useMint';
 import { usePublicContractData } from '../../hooks/usePublicContractData';
 import { Button } from './Button';
@@ -12,15 +13,24 @@ export const MintButton = ({ amount }) => {
   const { mutate: mint, isLoading: isLoadingMint } = useMint();
 
   const isLoading = isLoadingPublicData || isLoadingMint;
+  const { cost, whitelistMintEnabled } = data;
 
   const handleMint = () => {
     if (!account) {
       toast.error('Connect your wallet!', { position: 'top-left' });
       return;
     }
-    const { cost } = data;
+    if (whitelistMintEnabled) {
+      whitelistMint({ amount, cost: cost * amount, account });
+      return;
+    }
     mint({ amount, cost: cost * amount, account });
   };
 
-  return <Button type="button" isLoading={isLoading} onClick={handleMint}>MINT!</Button>;
+  let text = 'MINT!';
+  if (whitelistMintEnabled) {
+    text = 'WHITELIST MINT!';
+  }
+
+  return <Button type="button" isLoading={isLoading} onClick={handleMint}>{text}</Button>;
 };

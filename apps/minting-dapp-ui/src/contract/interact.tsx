@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import { useMutation, useQuery } from 'react-query';
 import { config } from '@/src/config';
 import abi from './StickPplNFTzAbi.json';
+import Whitelist from '../lib/merkletree';
 
 const web3 = createAlchemyWeb3(config.RPC_URL);
 const nftContract = new web3.eth.Contract(abi, config.TOKEN_CONTACT_ADDRESS);
@@ -45,7 +46,7 @@ export const whitelistMint = async ({ amount, cost, account }) => {
     // Interact with contract
     const contract = new ethers.Contract(config.TOKEN_CONTACT_ADDRESS, abi, signer);
     const totalPrice = cost;
-    const transaction = await contract.whitelistMint(amount, { value: ethers.utils.parseUnits(totalPrice.toString(), 'wei') });
+    const transaction = await contract.whitelistMint(amount, Whitelist.getProofForAddress(account), { value: ethers.utils.parseUnits(totalPrice.toString(), 'wei') });
     const data = await transaction.wait();
     console.log({ transaction });
     console.log({ data });

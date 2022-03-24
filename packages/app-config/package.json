@@ -1,0 +1,10 @@
+{
+  "name": "app-config",
+  "version": "0.0.0",
+  "license": "MIT",
+  "files": [
+    "whitelist.json"
+  ],
+  "dependencies": {
+  }
+}

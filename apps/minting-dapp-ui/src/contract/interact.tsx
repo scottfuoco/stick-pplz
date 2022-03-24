@@ -31,7 +31,9 @@ export const getPublicVariables = async () => {
   return variables;
 };
 
-export const whitelistMint = async ({ amount, cost, account }) => {
+export const whitelistMint = async ({
+  amount, cost, account, setError,
+}) => {
   console.log({ amount, cost, account });
   if (!window.ethereum.selectedAddress) {
     return {
@@ -51,7 +53,14 @@ export const whitelistMint = async ({ amount, cost, account }) => {
     console.log({ transaction });
     console.log({ data });
   } catch (error) {
-    console.log(error);
+    if (error.message.match(/Address already claimed/)?.[0]) {
+      setError('Yo you have already claimed your whitelist');
+      return;
+    }
+    if (error.message.match(/Invalid proof!/)?.[0]) {
+      setError("Dude you aren't whitelisted, join the discord tho");
+      return;
+    }
     throw error;
   }
 };

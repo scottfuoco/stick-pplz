@@ -3,6 +3,7 @@ import CustomCountdown from '@/components/Countdown';
 import { Web3ModalButton } from '../components/Web3ModalButton';
 import styles from './Hero.module.scss';
 import { ContractData } from '../components/ContractData';
+import { WhitelistChecker } from './WhitelistChecker';
 
 const date = new Date(2022, 2, 20);
 
@@ -15,6 +16,7 @@ const Hero = () => (
     <Web3ModalButton />
 
     <Countdown date={date} renderer={CustomCountdown} />
+    <WhitelistChecker />
     <ContractData />
 
   </section>
